@@ -1,2 +1,0 @@
-PARSE SAT
-ExAx(P(x,x)&~P(x,x))

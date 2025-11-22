@@ -3,6 +3,16 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Ignore all PDF files
+*.pdf
+
+# Ignore specific files and folders
+mark.txt
+output.txt
+skeleton.py
+testCase.txt
+testOutput.txt
+
 # C extensions
 *.so
 

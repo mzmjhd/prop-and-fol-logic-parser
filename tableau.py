@@ -204,8 +204,6 @@ def substitute(fmla, var, term):
 
 def apply_alpha_rule(fmla, branch_formulas): #fmla = formula to expand, branch_formulas = the formula popped from the queue
     formulas = branch_formulas - {fmla} #this is the set of fmla that we will return to add into the queue
-    # print("branch_formula:", branch_formulas)
-    # print("formula to branch:", fmla)
     #print("This is an alpha rule:", formulas, "fmla to work on:",fmla)
     if con(fmla) == '&': # (A & B)
         formulas.add(lhs(fmla))
@@ -287,12 +285,6 @@ def sat(tableau):
     while queue:
         branch_formulas, branch_new_constants = queue.pop(0)
 
-        #Add this state of the branch to the processed_branch and skip if we've already processed this branch
-        current_state = (frozenset(branch_formulas), frozenset(branch_new_constants))
-        if current_state in processed_branches:
-            return 1
-        processed_branches.add(current_state)
-
         # 1. Check for contradictions
         has_contradiction = False
         literals = {f for f in branch_formulas}
@@ -305,6 +297,12 @@ def sat(tableau):
                 break
         if has_contradiction:
             continue
+
+        #Add this state of the branch to the processed_branch and skip if we've already processed this branch
+        current_state = (frozenset(branch_formulas), frozenset(branch_new_constants))
+        if current_state in processed_branches:
+            return 1
+        processed_branches.add(current_state)
 
         # 2. Check for constant limit
         if len(branch_new_constants) > MAX_CONSTANTS:
@@ -352,25 +350,25 @@ def sat(tableau):
         # Alpha rules
         if (con(formula_to_expand) == '&') or \
            (formula_to_expand.startswith('~') and con(formula_to_expand[1:]) in ['\/','->']):
-            new_formulas = apply_alpha_rule(formula_to_expand, branch_formulas)
+            new_formulas = apply_alpha_rule(formula_to_expand, branch_formulas.copy())
             for f in new_formulas:
                 new_branches.append((f, branch_new_constants))
 
         # Beta rules
         elif (con(formula_to_expand) in ['\/', '->']) or \
              (formula_to_expand.startswith('~') and con(formula_to_expand[1:]) == '&'):
-            new_formulas_list = apply_beta_rule(formula_to_expand, branch_formulas)
+            new_formulas_list = apply_beta_rule(formula_to_expand, branch_formulas.copy())
             for f in new_formulas_list:
                 new_branches.append((f, branch_new_constants))       
 
         # Delta rules
         elif formula_to_expand.startswith(('~A','E')):
             # Pass and receive the set of new constants for this branch
-            new_branches.extend(apply_delta_rule(formula_to_expand, branch_formulas, branch_new_constants))
+            new_branches.extend(apply_delta_rule(formula_to_expand, branch_formulas.copy(), branch_new_constants))
 
         # Gamma rules
         elif formula_to_expand.startswith(('~E','A')):
-            new_formulas = apply_gamma_rule(formula_to_expand, branch_formulas, branch_new_constants)
+            new_formulas = apply_gamma_rule(formula_to_expand, branch_formulas.copy(), branch_new_constants)
             for f in new_formulas:
                 new_branches.append((f, branch_new_constants))
 
@@ -383,8 +381,13 @@ def sat(tableau):
             
         # Enqueue all newly generated branches
         #print("new branches to add to queue:", new_branches)
+        branch_changed_or_split = False #we need this to check for gamma rules that loop over
         for br_f, br_c in new_branches:
-            queue.append((br_f, br_c))
+            if br_f != branch_formulas or br_c != branch_new_constants:
+                queue.append((br_f, br_c))
+                branch_changed_or_split = True
+        if not branch_changed_or_split:
+            return 1
         
         #print("queue result:",queue) #delete this later
             
