@@ -129,7 +129,7 @@ def get_constants_from_branch(branch_formulas):
     for i, char in enumerate(all_text):
         if char == 'c':
             constNum = ""
-            j = i + 1 #checks the imm next character for a number
+            j = i + 1
             while j < len(all_text) and all_text[j].isdigit():
                 constNum += all_text[j]
                 j += 1
@@ -137,9 +137,68 @@ def get_constants_from_branch(branch_formulas):
                 found_consts.add(f'c{constNum}')
     return found_consts
 
+#helper function to get the variable and the rest of the formula in an FOL
+def get_quantifier_components(fmla):    
+    start_index = 0
+    if fmla.startswith('~'):
+        start_index = 1
+    
+    var = fmla[start_index + 1]
+    
+    sub_fmla_start = start_index +2
+    sub_fmla = fmla[sub_fmla_start:]
+    
+    return var, sub_fmla
+
 #helper function to substitute free variables with a term
 def substitute(fmla, var, term):
-    return fmla.replace(var, term)
+    
+    # base case: atoms
+    if fmla[0] in ['P', 'Q', 'R', 'S'] and '(' in fmla:
+        # Extract the inside: P(x,y) -> "x,y"
+        content = fmla[2:-1] 
+        
+        # Safety check for malformed atoms
+        if ',' not in content: 
+            return fmla 
+            
+        t1, t2 = content.split(',')
+        
+        # Replace terms if they match the variable
+        if t1 == var: t1 = term
+        if t2 == var: t2 = term
+        
+        return f'{fmla[0]}({t1},{t2})'
+
+    # 2. there's a quantifier in the sub_fmla we want to sub. e.g: ExAx(P(x,x))
+    elif fmla[0] in ['A', 'E']:
+        q_var , sub_fmla = get_quantifier_components(fmla)
+        
+        # If the quantifier binds the same variable we are trying to replace,
+        # we must STOP. The 'var' inside is locked by this quantifier.
+        if q_var == var:
+            return fmla
+        else:
+            return f'{fmla[0]}{q_var}{substitute(sub_fmla, var, term)}'
+
+    # 3. negation!
+    elif fmla.startswith('~'):
+        return f'~{substitute(fmla[1:], var, term)}'
+
+    # 4. binary inside
+    elif fmla.startswith('('):
+        # We use the helper functions you already wrote
+        l = lhs(fmla)
+        c = con(fmla)
+        r = rhs(fmla)
+        
+        # Recursively substitute both sides
+        new_left = substitute(l, var, term)
+        new_right = substitute(r, var, term)
+        
+        return f'({new_left}{c}{new_right})'
+
+    return fmla
 
 # --- Branch Rules ---
 
@@ -147,7 +206,7 @@ def apply_alpha_rule(fmla, branch_formulas): #fmla = formula to expand, branch_f
     formulas = branch_formulas - {fmla} #this is the set of fmla that we will return to add into the queue
     # print("branch_formula:", branch_formulas)
     # print("formula to branch:", fmla)
-    print("This is an alpha rule:", formulas, "fmla to work on:",fmla)
+    #print("This is an alpha rule:", formulas, "fmla to work on:",fmla)
     if con(fmla) == '&': # (A & B)
         formulas.add(lhs(fmla))
         formulas.add(rhs(fmla))
@@ -165,7 +224,7 @@ def apply_alpha_rule(fmla, branch_formulas): #fmla = formula to expand, branch_f
 def apply_beta_rule(fmla, branch_formulas):
     base_formulas = branch_formulas - {fmla}
     branch1, branch2 = set(base_formulas), set(base_formulas)
-    print("this is a beta rule:",base_formulas, "fmla to work on:",fmla)
+    #print("this is a beta rule:",base_formulas, "fmla to work on:",fmla)
     if con(fmla) == '\/': # (A V B)
         branch1.add(lhs(fmla))
         branch2.add(rhs(fmla))
@@ -176,41 +235,36 @@ def apply_beta_rule(fmla, branch_formulas):
     if fmla.startswith('~(') and con(sub_fmla) == '&': # ~(A & B)
         branch1.add(f'~{lhs(fmla)}')
         branch2.add(f'~{rhs(fmla)}')
-    print("result of beta op:", branch1, branch2)
+    #print("result of beta op:", branch1, branch2)
     return [branch1, branch2]
 
 def apply_delta_rule(fmla, branch_formulas, branch_new_constants):
     formulas = branch_formulas - {fmla}
     new_const = generate_new_constant()
-    print("this is a delta rule:", formulas, "fmla to work on:", fmla)
+    #print("this is a delta rule:", formulas, "fmla to work on:", fmla)
     
-    var = fmla[1] # e.g., 'x' from 'ExP(x,y)'
-    sub_fmla = fmla[2:]
+    var, sub_fmla = get_quantifier_components(fmla)
     
     if fmla.startswith('E'): # ExF(x)
         formulas.add(substitute(sub_fmla, var, new_const))
-    sub_fmla = fmla[3:]
     if fmla.startswith('~A'): # ~AxF(x)
         formulas.add(f'~{substitute(sub_fmla, var, new_const)}')
         
     return [(formulas, branch_new_constants | {new_const})]
 
-def apply_gamma_rule(fmla, branch_formulas):
+def apply_gamma_rule(fmla, branch_formulas, branch_new_constants):
     # We don't tick the fmla after a gamma rule so no branch_formulas-{fmla}
-    print("this is a gamma rule:",branch_formulas,"fmla:",fmla)
+    #print("this is a gamma rule:",branch_formulas,"fmla:",fmla)
     
-    constants_on_branch = get_constants_from_branch(branch_formulas)
+    constants_on_branch = get_constants_from_branch(branch_formulas) | branch_new_constants
+    var, sub_fmla = get_quantifier_components(fmla)
 
     if not constants_on_branch:
         return [branch_formulas]
         
-    var = fmla[1]
-    sub_fmla = fmla[2:]
-
     if fmla.startswith('A'): # AxF(x)
         for c in constants_on_branch:
             branch_formulas.add(substitute(sub_fmla, var, c))
-    sub_fmla = fmla[3:]
     if fmla.startswith('~E'): # ~ExF(x)
         for c in constants_on_branch:
             branch_formulas.add(f'~{substitute(sub_fmla, var, c)}')
@@ -225,7 +279,7 @@ def sat(tableau):
     
     # The queue will store tuples of: (set_of_formulas, set_of_new_constants)
     queue = [(set(branch), set()) for branch in tableau]
-    print("original queue:",queue) #delete
+    #print("original queue:",queue) #delete
     
     processed_branches = set()
     undetermined_branch_found = False #if MAX_CONSTANT reached, set to true
@@ -236,12 +290,12 @@ def sat(tableau):
         #Add this state of the branch to the processed_branch and skip if we've already processed this branch
         current_state = (frozenset(branch_formulas), frozenset(branch_new_constants))
         if current_state in processed_branches:
-            continue
+            return 1
         processed_branches.add(current_state)
 
         # 1. Check for contradictions
         has_contradiction = False
-        literals = {f for f in branch_formulas if parse(f) in [1, 2, 6, 7]}
+        literals = {f for f in branch_formulas}
         for lit in literals:
             if lit.startswith('~') and lit[1:] in literals:
                 has_contradiction = True
@@ -266,7 +320,12 @@ def sat(tableau):
                 break
         if not formula_to_expand:
             for fmla in branch_formulas:
-                if parse(fmla) in [4, 2] and fmla.startswith(('E','~A')): #delta rule
+                if fmla.startswith(('E','~A')): #delta rule
+                    formula_to_expand = fmla
+                    break
+        if not formula_to_expand:
+            for fmla in branch_formulas:
+                if fmla.startswith(('~E','A')): #gamma rule
                     formula_to_expand = fmla
                     break
         # Pick any remaining non-literal if the prioritized ones are not found
@@ -288,7 +347,7 @@ def sat(tableau):
         # 4. Apply rules and enqueue new branches
         new_branches = []
         p_type = parse(formula_to_expand)
-        print("fmla to expand:",formula_to_expand,"p_type:",p_type, "con", con(formula_to_expand))
+        #print("fmla to expand:",formula_to_expand,"p_type:",p_type, "con:", con(formula_to_expand))
         
         # Alpha rules
         if (con(formula_to_expand) == '&') or \
@@ -305,13 +364,13 @@ def sat(tableau):
                 new_branches.append((f, branch_new_constants))       
 
         # Delta rules
-        elif formula_to_expand.startswith('~A' or 'E'):
+        elif formula_to_expand.startswith(('~A','E')):
             # Pass and receive the set of new constants for this branch
             new_branches.extend(apply_delta_rule(formula_to_expand, branch_formulas, branch_new_constants))
 
         # Gamma rules
-        elif formula_to_expand.startswith('~E' or 'A'):
-            new_formulas = apply_gamma_rule(formula_to_expand, branch_formulas)
+        elif formula_to_expand.startswith(('~E','A')):
+            new_formulas = apply_gamma_rule(formula_to_expand, branch_formulas, branch_new_constants)
             for f in new_formulas:
                 new_branches.append((f, branch_new_constants))
 
@@ -323,11 +382,11 @@ def sat(tableau):
             else: new_branches = [({formula_to_expand},branch_new_constants)]
             
         # Enqueue all newly generated branches
-        print("new branches to add to queue:", new_branches)
+        #print("new branches to add to queue:", new_branches)
         for br_f, br_c in new_branches:
             queue.append((br_f, br_c))
         
-        print("queue result:",queue) #delete this later
+        #print("queue result:",queue) #delete this later
             
     # If the queue is empty, check if we bailed on any branch
     if undetermined_branch_found:
@@ -339,7 +398,7 @@ def sat(tableau):
 #                                            DO NOT MODIFY THE CODE BELOW THIS LINE!                                           :
 #------------------------------------------------------------------------------------------------------------------------------:
 
-f = open('testCase.txt')
+f = open('input.txt')
 
 parseOutputs = ['not a formula',
                 'an atom',
