@@ -1,0 +1,2 @@
+PARSE SAT
+(ExP(x,x)&Ax(~P(x,x)->P(x,x)))

@@ -1,0 +1,271 @@
+~(p->(q->p)) is a negation of a propositional formula.
+original queue: [({'~(p->(q->p))'}, set())]
+fmla to expand: ~(p->(q->p)) p_type: 7 con 
+This is an alpha rule: set() fmla to work on: ~(p->(q->p))
+new branches to add to queue: [({'~(q->p)', 'p'}, set())]
+queue result: [({'~(q->p)', 'p'}, set())]
+fmla to expand: ~(q->p) p_type: 7 con 
+This is an alpha rule: {'p'} fmla to work on: ~(q->p)
+new branches to add to queue: [({'q', '~p', 'p'}, set())]
+queue result: [({'q', '~p', 'p'}, set())]
+~(p->(q->p)) is not satisfiable.
+(~(p->q)&q) is a binary connective propositional formula. Its left hand side is ~(p->q), its connective is &, and its right hand side is q.
+original queue: [({'(~(p->q)&q)'}, set())]
+fmla to expand: (~(p->q)&q) p_type: 8 con &
+This is an alpha rule: set() fmla to work on: (~(p->q)&q)
+new branches to add to queue: [({'~(p->q)', 'q'}, set())]
+queue result: [({'~(p->q)', 'q'}, set())]
+fmla to expand: ~(p->q) p_type: 7 con 
+This is an alpha rule: {'q'} fmla to work on: ~(p->q)
+new branches to add to queue: [({'q', 'p', '~q'}, set())]
+queue result: [({'q', 'p', '~q'}, set())]
+(~(p->q)&q) is not satisfiable.
+(~~~p\/(q&~q)) is a binary connective propositional formula. Its left hand side is ~~~p, its connective is \/, and its right hand side is (q&~q).
+original queue: [({'(~~~p\\/(q&~q))'}, set())]
+fmla to expand: (~~~p\/(q&~q)) p_type: 8 con \/
+this is a beta rule: set() fmla to work on: (~~~p\/(q&~q))
+result of beta op: {'~~~p'} {'(q&~q)'}
+new branches to add to queue: [({'~~~p'}, set()), ({'(q&~q)'}, set())]
+queue result: [({'~~~p'}, set()), ({'(q&~q)'}, set())]
+fmla to expand: ~~~p p_type: 7 con 
+new branches to add to queue: [({'~~p'}, set())]
+queue result: [({'(q&~q)'}, set()), ({'~~p'}, set())]
+fmla to expand: (q&~q) p_type: 8 con &
+This is an alpha rule: set() fmla to work on: (q&~q)
+new branches to add to queue: [({'q', '~q'}, set())]
+queue result: [({'~~p'}, set()), ({'q', '~q'}, set())]
+fmla to expand: ~~p p_type: 7 con 
+new branches to add to queue: [({'~p'}, set())]
+queue result: [({'q', '~q'}, set()), ({'~p'}, set())]
+(~~~p\/(q&~q)) is satisfiable.
+(p->p) is a binary connective propositional formula. Its left hand side is p, its connective is ->, and its right hand side is p.
+original queue: [({'(p->p)'}, set())]
+fmla to expand: (p->p) p_type: 8 con ->
+this is a beta rule: set() fmla to work on: (p->p)
+result of beta op: {'~p'} {'p'}
+new branches to add to queue: [({'~p'}, set()), ({'p'}, set())]
+queue result: [({'~p'}, set()), ({'p'}, set())]
+(p->p) is satisfiable.
+~(p->p) is a negation of a propositional formula.
+original queue: [({'~(p->p)'}, set())]
+fmla to expand: ~(p->p) p_type: 7 con 
+This is an alpha rule: set() fmla to work on: ~(p->p)
+new branches to add to queue: [({'~p', 'p'}, set())]
+queue result: [({'~p', 'p'}, set())]
+~(p->p) is not satisfiable.
+((p\/q)& is not a formula.
+((p\/q)& is not a formula.
+(p~q) is not a formula.
+(p~q) is not a formula.
+((p\/q)&(~p\/~q)) is a binary connective propositional formula. Its left hand side is (p\/q), its connective is &, and its right hand side is (~p\/~q).
+original queue: [({'((p\\/q)&(~p\\/~q))'}, set())]
+fmla to expand: ((p\/q)&(~p\/~q)) p_type: 8 con &
+This is an alpha rule: set() fmla to work on: ((p\/q)&(~p\/~q))
+new branches to add to queue: [({'(~p\\/~q)', '(p\\/q)'}, set())]
+queue result: [({'(~p\\/~q)', '(p\\/q)'}, set())]
+fmla to expand: (~p\/~q) p_type: 8 con \/
+this is a beta rule: {'(p\\/q)'} fmla to work on: (~p\/~q)
+result of beta op: {'~p', '(p\\/q)'} {'~q', '(p\\/q)'}
+new branches to add to queue: [({'~p', '(p\\/q)'}, set()), ({'~q', '(p\\/q)'}, set())]
+queue result: [({'~p', '(p\\/q)'}, set()), ({'~q', '(p\\/q)'}, set())]
+fmla to expand: (p\/q) p_type: 8 con \/
+this is a beta rule: {'~p'} fmla to work on: (p\/q)
+result of beta op: {'~p', 'p'} {'q', '~p'}
+new branches to add to queue: [({'~p', 'p'}, set()), ({'q', '~p'}, set())]
+queue result: [({'~q', '(p\\/q)'}, set()), ({'~p', 'p'}, set()), ({'q', '~p'}, set())]
+fmla to expand: (p\/q) p_type: 8 con \/
+this is a beta rule: {'~q'} fmla to work on: (p\/q)
+result of beta op: {'p', '~q'} {'q', '~q'}
+new branches to add to queue: [({'p', '~q'}, set()), ({'q', '~q'}, set())]
+queue result: [({'~p', 'p'}, set()), ({'q', '~p'}, set()), ({'p', '~q'}, set()), ({'q', '~q'}, set())]
+((p\/q)&(~p\/~q)) is satisfiable.
+(q&~(p\/~p)) is a binary connective propositional formula. Its left hand side is q, its connective is &, and its right hand side is ~(p\/~p).
+original queue: [({'(q&~(p\\/~p))'}, set())]
+fmla to expand: (q&~(p\/~p)) p_type: 8 con &
+This is an alpha rule: set() fmla to work on: (q&~(p\/~p))
+new branches to add to queue: [({'q', '~(p\\/~p)'}, set())]
+queue result: [({'q', '~(p\\/~p)'}, set())]
+fmla to expand: ~(p\/~p) p_type: 7 con 
+This is an alpha rule: {'q'} fmla to work on: ~(p\/~p)
+new branches to add to queue: [({'q', '~p', '~~p'}, set())]
+queue result: [({'q', '~p', '~~p'}, set())]
+(q&~(p\/~p)) is not satisfiable.
+p is a proposition.
+original queue: [({'p'}, set())]
+p is satisfiable.
+((p\/q)&((p->~p)&(~p->p))) is a binary connective propositional formula. Its left hand side is (p\/q), its connective is &, and its right hand side is ((p->~p)&(~p->p)).
+original queue: [({'((p\\/q)&((p->~p)&(~p->p)))'}, set())]
+fmla to expand: ((p\/q)&((p->~p)&(~p->p))) p_type: 8 con &
+This is an alpha rule: set() fmla to work on: ((p\/q)&((p->~p)&(~p->p)))
+new branches to add to queue: [({'((p->~p)&(~p->p))', '(p\\/q)'}, set())]
+queue result: [({'((p->~p)&(~p->p))', '(p\\/q)'}, set())]
+fmla to expand: ((p->~p)&(~p->p)) p_type: 8 con &
+This is an alpha rule: {'(p\\/q)'} fmla to work on: ((p->~p)&(~p->p))
+new branches to add to queue: [({'(p->~p)', '(~p->p)', '(p\\/q)'}, set())]
+queue result: [({'(p->~p)', '(~p->p)', '(p\\/q)'}, set())]
+fmla to expand: (p->~p) p_type: 8 con ->
+this is a beta rule: {'(~p->p)', '(p\\/q)'} fmla to work on: (p->~p)
+result of beta op: {'(~p->p)', '~p', '(p\\/q)'} {'(~p->p)', '~p', '(p\\/q)'}
+new branches to add to queue: [({'(~p->p)', '~p', '(p\\/q)'}, set()), ({'(~p->p)', '~p', '(p\\/q)'}, set())]
+queue result: [({'(~p->p)', '~p', '(p\\/q)'}, set()), ({'(~p->p)', '~p', '(p\\/q)'}, set())]
+fmla to expand: (~p->p) p_type: 8 con ->
+this is a beta rule: {'~p', '(p\\/q)'} fmla to work on: (~p->p)
+result of beta op: {'~p', '~~p', '(p\\/q)'} {'~p', 'p', '(p\\/q)'}
+new branches to add to queue: [({'~p', '~~p', '(p\\/q)'}, set()), ({'~p', 'p', '(p\\/q)'}, set())]
+queue result: [({'(~p->p)', '~p', '(p\\/q)'}, set()), ({'~p', '~~p', '(p\\/q)'}, set()), ({'~p', 'p', '(p\\/q)'}, set())]
+((p\/q)&((p->~p)&(~p->p))) is not satisfiable.
+~~~~~~~~~~~q is a negation of a propositional formula.
+original queue: [({'~~~~~~~~~~~q'}, set())]
+fmla to expand: ~~~~~~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~~~~~~q'}, set())]
+queue result: [({'~~~~~~~~~~q'}, set())]
+fmla to expand: ~~~~~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~~~~~q'}, set())]
+queue result: [({'~~~~~~~~~q'}, set())]
+fmla to expand: ~~~~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~~~~q'}, set())]
+queue result: [({'~~~~~~~~q'}, set())]
+fmla to expand: ~~~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~~~q'}, set())]
+queue result: [({'~~~~~~~q'}, set())]
+fmla to expand: ~~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~~q'}, set())]
+queue result: [({'~~~~~~q'}, set())]
+fmla to expand: ~~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~~q'}, set())]
+queue result: [({'~~~~~q'}, set())]
+fmla to expand: ~~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~~q'}, set())]
+queue result: [({'~~~~q'}, set())]
+fmla to expand: ~~~~q p_type: 7 con 
+new branches to add to queue: [({'~~~q'}, set())]
+queue result: [({'~~~q'}, set())]
+fmla to expand: ~~~q p_type: 7 con 
+new branches to add to queue: [({'~~q'}, set())]
+queue result: [({'~~q'}, set())]
+fmla to expand: ~~q p_type: 7 con 
+new branches to add to queue: [({'~q'}, set())]
+queue result: [({'~q'}, set())]
+~~~~~~~~~~~q is satisfiable.
+(ExP(x,x)&Ax(~P(x,x)->P(x,x))) is a binary connective first order formula. Its left hand side is ExP(x,x), its connective is &, and its right hand side is Ax(~P(x,x)->P(x,x)).
+original queue: [({'(ExP(x,x)&Ax(~P(x,x)->P(x,x)))'}, set())]
+fmla to expand: (ExP(x,x)&Ax(~P(x,x)->P(x,x))) p_type: 5 con &
+This is an alpha rule: set() fmla to work on: (ExP(x,x)&Ax(~P(x,x)->P(x,x)))
+new branches to add to queue: [({'Ax(~P(x,x)->P(x,x))', 'ExP(x,x)'}, set())]
+queue result: [({'Ax(~P(x,x)->P(x,x))', 'ExP(x,x)'}, set())]
+fmla to expand: ExP(x,x) p_type: 4 con 
+this is a delta rule: {'Ax(~P(x,x)->P(x,x))'} fmla to work on: ExP(x,x)
+new branches to add to queue: [({'Ax(~P(x,x)->P(x,x))', 'P(c0,c0)'}, {'c0'})]
+queue result: [({'Ax(~P(x,x)->P(x,x))', 'P(c0,c0)'}, {'c0'})]
+fmla to expand: Ax(~P(x,x)->P(x,x)) p_type: 3 con 
+this is a gamma rule: {'Ax(~P(x,x)->P(x,x))', 'P(c0,c0)'} fmla: Ax(~P(x,x)->P(x,x))
+new branches to add to queue: [({'Ax(~P(x,x)->P(x,x))', 'P(c0,c0)', '(~P(c0,c0)->P(c0,c0))'}, {'c0'})]
+queue result: [({'Ax(~P(x,x)->P(x,x))', 'P(c0,c0)', '(~P(c0,c0)->P(c0,c0))'}, {'c0'})]
+fmla to expand: (~P(c0,c0)->P(c0,c0)) p_type: 0 con ->
+new branches to add to queue: []
+queue result: []
+(ExP(x,x)&Ax(~P(x,x)->P(x,x))) is not satisfiable.
+~Ax(P(x,x)&~P(x,x)) is a negation of a first order logic formula.
+original queue: [({'~Ax(P(x,x)&~P(x,x))'}, set())]
+fmla to expand: ~Ax(P(x,x)&~P(x,x)) p_type: 2 con 
+this is a delta rule: set() fmla to work on: ~Ax(P(x,x)&~P(x,x))
+new branches to add to queue: [({'~(P(x,x)&~P(x,x))'}, {'c0'})]
+queue result: [({'~(P(x,x)&~P(x,x))'}, {'c0'})]
+fmla to expand: ~(P(x,x)&~P(x,x)) p_type: 2 con 
+new branches to add to queue: [({'(P(x,x)&~P(x,x))'}, {'c0'})]
+queue result: [({'(P(x,x)&~P(x,x))'}, {'c0'})]
+fmla to expand: (P(x,x)&~P(x,x)) p_type: 5 con &
+This is an alpha rule: set() fmla to work on: (P(x,x)&~P(x,x))
+new branches to add to queue: [({'P(x,x)', '~P(x,x)'}, {'c0'})]
+queue result: [({'P(x,x)', '~P(x,x)'}, {'c0'})]
+~Ax(P(x,x)&~P(x,x)) is not satisfiable.
+~Ax~Ey~P(x,y) is a negation of a first order logic formula.
+original queue: [({'~Ax~Ey~P(x,y)'}, set())]
+fmla to expand: ~Ax~Ey~P(x,y) p_type: 2 con 
+this is a delta rule: set() fmla to work on: ~Ax~Ey~P(x,y)
+new branches to add to queue: [({'~~Ey~P(x,y)'}, {'c0'})]
+queue result: [({'~~Ey~P(x,y)'}, {'c0'})]
+fmla to expand: ~~Ey~P(x,y) p_type: 2 con 
+new branches to add to queue: [({'~Ey~P(x,y)'}, {'c0'})]
+queue result: [({'~Ey~P(x,y)'}, {'c0'})]
+fmla to expand: ~Ey~P(x,y) p_type: 2 con 
+this is a gamma rule: {'~Ey~P(x,y)'} fmla: ~Ey~P(x,y)
+new branches to add to queue: [({'~Ey~P(x,y)'}, {'c0'})]
+queue result: [({'~Ey~P(x,y)'}, {'c0'})]
+~Ax~Ey~P(x,y) is not satisfiable.
+ExAx(P(x,x)&~P(x,x)) is an existentially quantified formula.
+original queue: [({'ExAx(P(x,x)&~P(x,x))'}, set())]
+fmla to expand: ExAx(P(x,x)&~P(x,x)) p_type: 4 con 
+this is a delta rule: set() fmla to work on: ExAx(P(x,x)&~P(x,x))
+new branches to add to queue: [({'Ac0(P(c0,c0)&~P(c0,c0))'}, {'c0'})]
+queue result: [({'Ac0(P(c0,c0)&~P(c0,c0))'}, {'c0'})]
+ExAx(P(x,x)&~P(x,x)) is satisfiable.
+ExAy(Q(x,x)->P(y,y)) is an existentially quantified formula.
+original queue: [({'ExAy(Q(x,x)->P(y,y))'}, set())]
+fmla to expand: ExAy(Q(x,x)->P(y,y)) p_type: 4 con 
+this is a delta rule: set() fmla to work on: ExAy(Q(x,x)->P(y,y))
+new branches to add to queue: [({'Ay(Q(c0,c0)->P(y,y))'}, {'c0'})]
+queue result: [({'Ay(Q(c0,c0)->P(y,y))'}, {'c0'})]
+ExAy(Q(x,x)->P(y,y)) is satisfiable.
+(Q(x,x)~(P(y,y)) is not a formula.
+(Q(x,x)~(P(y,y)) is not a formula.
+ExEy((Q(x,x)&Q(y,y))\/~P(y,y)) is an existentially quantified formula.
+original queue: [({'ExEy((Q(x,x)&Q(y,y))\\/~P(y,y))'}, set())]
+fmla to expand: ExEy((Q(x,x)&Q(y,y))\/~P(y,y)) p_type: 4 con 
+this is a delta rule: set() fmla to work on: ExEy((Q(x,x)&Q(y,y))\/~P(y,y))
+new branches to add to queue: [({'Ey((Q(c0,c0)&Q(y,y))\\/~P(y,y))'}, {'c0'})]
+queue result: [({'Ey((Q(c0,c0)&Q(y,y))\\/~P(y,y))'}, {'c0'})]
+ExEy((Q(x,x)&Q(y,y))\/~P(y,y)) is satisfiable.
+ExEy((Q(x,x)&Q(y,y))\/ is not a formula.
+ExEy((Q(x,x)&Q(y,y))\/ is not a formula.
+Ex~P(x,x) is an existentially quantified formula.
+original queue: [({'Ex~P(x,x)'}, set())]
+fmla to expand: Ex~P(x,x) p_type: 4 con 
+this is a delta rule: set() fmla to work on: Ex~P(x,x)
+new branches to add to queue: [({'~P(c0,c0)'}, {'c0'})]
+queue result: [({'~P(c0,c0)'}, {'c0'})]
+Ex~P(x,x) is satisfiable.
+(AxEyP(x,y)&EzQ(z,z)) is a binary connective first order formula. Its left hand side is AxEyP(x,y), its connective is &, and its right hand side is EzQ(z,z).
+original queue: [({'(AxEyP(x,y)&EzQ(z,z))'}, set())]
+fmla to expand: (AxEyP(x,y)&EzQ(z,z)) p_type: 5 con &
+This is an alpha rule: set() fmla to work on: (AxEyP(x,y)&EzQ(z,z))
+new branches to add to queue: [({'EzQ(z,z)', 'AxEyP(x,y)'}, set())]
+queue result: [({'EzQ(z,z)', 'AxEyP(x,y)'}, set())]
+fmla to expand: EzQ(z,z) p_type: 4 con 
+this is a delta rule: {'AxEyP(x,y)'} fmla to work on: EzQ(z,z)
+new branches to add to queue: [({'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+queue result: [({'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+fmla to expand: AxEyP(x,y) p_type: 3 con 
+this is a gamma rule: {'Q(c0,c0)', 'AxEyP(x,y)'} fmla: AxEyP(x,y)
+new branches to add to queue: [({'EyP(c0,y)', 'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+queue result: [({'EyP(c0,y)', 'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+fmla to expand: AxEyP(x,y) p_type: 3 con 
+this is a gamma rule: {'EyP(c0,y)', 'Q(c0,c0)', 'AxEyP(x,y)'} fmla: AxEyP(x,y)
+new branches to add to queue: [({'EyP(c0,y)', 'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+queue result: [({'EyP(c0,y)', 'Q(c0,c0)', 'AxEyP(x,y)'}, {'c0'})]
+(AxEyP(x,y)&EzQ(z,z)) is not satisfiable.
+(Ax(P(x,x)&~P(x,x))&ExQ(x,x)) is a binary connective first order formula. Its left hand side is Ax(P(x,x)&~P(x,x)), its connective is &, and its right hand side is ExQ(x,x).
+original queue: [({'(Ax(P(x,x)&~P(x,x))&ExQ(x,x))'}, set())]
+fmla to expand: (Ax(P(x,x)&~P(x,x))&ExQ(x,x)) p_type: 5 con &
+This is an alpha rule: set() fmla to work on: (Ax(P(x,x)&~P(x,x))&ExQ(x,x))
+new branches to add to queue: [({'ExQ(x,x)', 'Ax(P(x,x)&~P(x,x))'}, set())]
+queue result: [({'ExQ(x,x)', 'Ax(P(x,x)&~P(x,x))'}, set())]
+fmla to expand: ExQ(x,x) p_type: 4 con 
+this is a delta rule: {'Ax(P(x,x)&~P(x,x))'} fmla to work on: ExQ(x,x)
+new branches to add to queue: [({'Q(c0,c0)', 'Ax(P(x,x)&~P(x,x))'}, {'c0'})]
+queue result: [({'Q(c0,c0)', 'Ax(P(x,x)&~P(x,x))'}, {'c0'})]
+fmla to expand: Ax(P(x,x)&~P(x,x)) p_type: 3 con 
+this is a gamma rule: {'Q(c0,c0)', 'Ax(P(x,x)&~P(x,x))'} fmla: Ax(P(x,x)&~P(x,x))
+new branches to add to queue: [({'Q(c0,c0)', '(P(c0,c0)&~P(c0,c0))', 'Ax(P(x,x)&~P(x,x))'}, {'c0'})]
+queue result: [({'Q(c0,c0)', '(P(c0,c0)&~P(c0,c0))', 'Ax(P(x,x)&~P(x,x))'}, {'c0'})]
+fmla to expand: (P(c0,c0)&~P(c0,c0)) p_type: 0 con &
+new branches to add to queue: []
+queue result: []
+(Ax(P(x,x)&~P(x,x))&ExQ(x,x)) is not satisfiable.
+ExEy(P(x,y)&Ex~P(x,y)) is an existentially quantified formula.
+original queue: [({'ExEy(P(x,y)&Ex~P(x,y))'}, set())]
+fmla to expand: ExEy(P(x,y)&Ex~P(x,y)) p_type: 4 con 
+this is a delta rule: set() fmla to work on: ExEy(P(x,y)&Ex~P(x,y))
+new branches to add to queue: [({'Ey(P(c0,y)&Ec0~P(c0,y))'}, {'c0'})]
+queue result: [({'Ey(P(c0,y)&Ec0~P(c0,y))'}, {'c0'})]
+ExEy(P(x,y)&Ex~P(x,y)) is satisfiable.

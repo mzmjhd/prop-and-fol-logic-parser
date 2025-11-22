@@ -1,0 +1,29 @@
+(ExP(x,x)&Ax(~P(x,x)->P(x,x))) is a binary connective first order formula. Its left hand side is ExP(x,x), its connective is &, and its right hand side is Ax(~P(x,x)->P(x,x)).
+original queue: [({'(ExP(x,x)&Ax(~P(x,x)->P(x,x)))'}, set())]
+fmla to expand: (ExP(x,x)&Ax(~P(x,x)->P(x,x))) p_type: 5 con &
+This is an alpha rule: set() fmla to work on: (ExP(x,x)&Ax(~P(x,x)->P(x,x)))
+new branches to add to queue: [({'ExP(x,x)', 'Ax(~P(x,x)->P(x,x))'}, set())]
+queue result: [({'ExP(x,x)', 'Ax(~P(x,x)->P(x,x))'}, set())]
+fmla to expand: ExP(x,x) p_type: 4 con 
+this is a delta rule: {'Ax(~P(x,x)->P(x,x))'} fmla to work on: ExP(x,x)
+new branches to add to queue: [({'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+queue result: [({'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+fmla to expand: Ax(~P(x,x)->P(x,x)) p_type: 3 con 
+this is a gamma rule: {'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} fmla: Ax(~P(x,x)->P(x,x))
+new branches to add to queue: [({'P(c0,c0)', '(~P(c0,c0)->P(c0,c0))', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+queue result: [({'P(c0,c0)', '(~P(c0,c0)->P(c0,c0))', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+fmla to expand: (~P(c0,c0)->P(c0,c0)) p_type: 0 con ->
+this is a beta rule: {'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} fmla to work on: (~P(c0,c0)->P(c0,c0))
+result of beta op: {'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} {'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}
+new branches to add to queue: [({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'}), ({'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+queue result: [({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'}), ({'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+fmla to expand: Ax(~P(x,x)->P(x,x)) p_type: 3 con 
+this is a gamma rule: {'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} fmla: Ax(~P(x,x)->P(x,x))
+new branches to add to queue: [({'(~P(c0,c0)->P(c0,c0))', 'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+queue result: [({'P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'}), ({'(~P(c0,c0)->P(c0,c0))', 'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+fmla to expand: (~P(c0,c0)->P(c0,c0)) p_type: 0 con ->
+this is a beta rule: {'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} fmla to work on: (~P(c0,c0)->P(c0,c0))
+result of beta op: {'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'} {'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}
+new branches to add to queue: [({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'}), ({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+queue result: [({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'}), ({'P(c0,c0)', '~~P(c0,c0)', 'Ax(~P(x,x)->P(x,x))'}, {'c0'})]
+(ExP(x,x)&Ax(~P(x,x)->P(x,x))) is not satisfiable.
