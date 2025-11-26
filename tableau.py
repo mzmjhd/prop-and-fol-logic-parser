@@ -1,4 +1,3 @@
-
 MAX_CONSTANTS = 10
 
 
@@ -174,8 +173,6 @@ def substitute(fmla, var, term):
     elif fmla[0] in ['A', 'E']:
         q_var , sub_fmla = get_quantifier_components(fmla)
         
-        # If the quantifier binds the same variable we are trying to replace,
-        # we must STOP. The 'var' inside is locked by this quantifier.
         if q_var == var:
             return fmla
         else:
@@ -187,7 +184,6 @@ def substitute(fmla, var, term):
 
     # 4. binary inside
     elif fmla.startswith('('):
-        # We use the helper functions you already wrote
         l = lhs(fmla)
         c = con(fmla)
         r = rhs(fmla)
@@ -204,7 +200,7 @@ def substitute(fmla, var, term):
 
 def apply_alpha_rule(fmla, branch_formulas): #fmla = formula to expand, branch_formulas = the formula popped from the queue
     formulas = branch_formulas - {fmla} #this is the set of fmla that we will return to add into the queue
-    #print("This is an alpha rule:", formulas, "fmla to work on:",fmla)
+
     if con(fmla) == '&': # (A & B)
         formulas.add(lhs(fmla))
         formulas.add(rhs(fmla))
@@ -222,7 +218,7 @@ def apply_alpha_rule(fmla, branch_formulas): #fmla = formula to expand, branch_f
 def apply_beta_rule(fmla, branch_formulas):
     base_formulas = branch_formulas - {fmla}
     branch1, branch2 = set(base_formulas), set(base_formulas)
-    #print("this is a beta rule:",base_formulas, "fmla to work on:",fmla)
+    
     if con(fmla) == '\/': # (A V B)
         branch1.add(lhs(fmla))
         branch2.add(rhs(fmla))
@@ -233,13 +229,13 @@ def apply_beta_rule(fmla, branch_formulas):
     if fmla.startswith('~(') and con(sub_fmla) == '&': # ~(A & B)
         branch1.add(f'~{lhs(fmla)}')
         branch2.add(f'~{rhs(fmla)}')
-    #print("result of beta op:", branch1, branch2)
+    
     return [branch1, branch2]
 
 def apply_delta_rule(fmla, branch_formulas, branch_new_constants):
     formulas = branch_formulas - {fmla}
     new_const = generate_new_constant()
-    #print("this is a delta rule:", formulas, "fmla to work on:", fmla)
+    
     
     var, sub_fmla = get_quantifier_components(fmla)
     
@@ -252,7 +248,6 @@ def apply_delta_rule(fmla, branch_formulas, branch_new_constants):
 
 def apply_gamma_rule(fmla, branch_formulas, branch_new_constants):
     # We don't tick the fmla after a gamma rule so no branch_formulas-{fmla}
-    #print("this is a gamma rule:",branch_formulas,"fmla:",fmla)
     
     constants_on_branch = get_constants_from_branch(branch_formulas) | branch_new_constants
     var, sub_fmla = get_quantifier_components(fmla)
@@ -336,7 +331,7 @@ def sat(tableau):
                     formula_to_expand = fmla
                     break
         
-        # If no formula was found, the branch is fully expanded and open
+        # If no formula was found, the branch is fully expanded and not closed
         if not formula_to_expand:
             return 1 # SATISFIABLE
         
@@ -345,7 +340,6 @@ def sat(tableau):
         # 4. Apply rules and enqueue new branches
         new_branches = []
         p_type = parse(formula_to_expand)
-        #print("fmla to expand:",formula_to_expand,"p_type:",p_type, "con:", con(formula_to_expand))
         
         # Alpha rules
         if (con(formula_to_expand) == '&') or \
@@ -380,7 +374,7 @@ def sat(tableau):
             else: new_branches = [({formula_to_expand},branch_new_constants)]
             
         # Enqueue all newly generated branches
-        #print("new branches to add to queue:", new_branches)
+        
         branch_changed_or_split = False #we need this to check for gamma rules that loop over
         for br_f, br_c in new_branches:
             if br_f != branch_formulas or br_c != branch_new_constants:
@@ -388,8 +382,6 @@ def sat(tableau):
                 branch_changed_or_split = True
         if not branch_changed_or_split:
             return 1
-        
-        #print("queue result:",queue) #delete this later
             
     # If the queue is empty, check if we bailed on any branch
     if undetermined_branch_found:
